@@ -1,0 +1,1652 @@
+State 30 conflicts: 3 shift/reduce, 4 reduce/reduce
+State 41 conflicts: 4 reduce/reduce
+State 76 conflicts: 2 shift/reduce, 4 reduce/reduce
+
+
+Grammar
+
+    0 $accept: input $end
+
+    1 input: expr '\n'
+    2      | input expr '\n'
+
+    3 expr: nexpr
+    4     | bexpr
+    5     | sexpr
+
+    6 nexpr: NUMBER
+    7      | LPAREN nexpr PLUS nexpr RPAREN
+    8      | LPAREN nexpr TIMES nexpr RPAREN
+    9      | MINUS nexpr
+   10      | PIPE sexpr PIPE
+   11      | LPAREN IF truexpr nexpr nexpr RPAREN
+   12      | LPAREN IF falsexpr nexpr nexpr RPAREN
+   13      | LPAREN IF truexpr nexpr sexpr RPAREN
+   14      | LPAREN IF falsexpr sexpr nexpr RPAREN
+   15      | LPAREN IF truexpr nexpr bexpr RPAREN
+   16      | LPAREN IF falsexpr bexpr nexpr RPAREN
+
+   17 bexpr: BOOLEAN
+   18      | LPAREN bexpr AND bexpr RPAREN
+   19      | LPAREN NOT bexpr RPAREN
+   20      | LPAREN nexpr LESS nexpr RPAREN
+   21      | LPAREN nexpr EQ nexpr RPAREN
+   22      | LPAREN IF bexpr bexpr bexpr RPAREN
+
+   23 truexpr: bexpr
+
+   24 falsexpr: bexpr
+
+   25 sexpr: STRING
+   26      | LPAREN sexpr DOT sexpr RPAREN
+   27      | LPAREN IF bexpr sexpr sexpr RPAREN
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 1 2
+    error (256)
+    NUMBER <ival> (258) 6
+    BOOLEAN <bval> (259) 17
+    STRING <sval> (260) 25
+    NOT (261) 19
+    IF (262) 11 12 13 14 15 16 22 27
+    AND (263) 18
+    PIPE (264) 10
+    LESS (265) 20
+    EQ (266) 21
+    PLUS (267) 7
+    TIMES (268) 8
+    MINUS (269) 9
+    LPAREN (270) 7 8 11 12 13 14 15 16 18 19 20 21 22 26 27
+    RPAREN (271) 7 8 11 12 13 14 15 16 18 19 20 21 22 26 27
+    DOT (272) 26
+
+
+Nonterminals, with rules where they appear
+
+    $accept (19)
+        on left: 0
+    input (20)
+        on left: 1 2
+        on right: 0 2
+    expr <ival> (21)
+        on left: 3 4 5
+        on right: 1 2
+    nexpr <ival> (22)
+        on left: 6 7 8 9 10 11 12 13 14 15 16
+        on right: 3 7 8 9 11 12 13 14 15 16 20 21
+    bexpr <ival> (23)
+        on left: 17 18 19 20 21 22
+        on right: 4 15 16 18 19 22 23 24 27
+    truexpr <bval> (24)
+        on left: 23
+        on right: 11 13 15
+    falsexpr <bval> (25)
+        on left: 24
+        on right: 12 14 16
+    sexpr <sval> (26)
+        on left: 25 26 27
+        on right: 5 10 13 14 26 27
+
+
+State 0
+
+    0 $accept: • input $end
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    input  go to state 7
+    expr   go to state 8
+    nexpr  go to state 9
+    bexpr  go to state 10
+    sexpr  go to state 11
+
+
+State 1
+
+    6 nexpr: NUMBER •
+
+    $default  reduce using rule 6 (nexpr)
+
+
+State 2
+
+   17 bexpr: BOOLEAN •
+
+    $default  reduce using rule 17 (bexpr)
+
+
+State 3
+
+   25 sexpr: STRING •
+
+    $default  reduce using rule 25 (sexpr)
+
+
+State 4
+
+   10 nexpr: PIPE • sexpr PIPE
+
+    STRING  shift, and go to state 3
+    LPAREN  shift, and go to state 12
+
+    sexpr  go to state 13
+
+
+State 5
+
+    9 nexpr: MINUS • nexpr
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 15
+
+
+State 6
+
+    7 nexpr: LPAREN • nexpr PLUS nexpr RPAREN
+    8      | LPAREN • nexpr TIMES nexpr RPAREN
+   11      | LPAREN • IF truexpr nexpr nexpr RPAREN
+   12      | LPAREN • IF falsexpr nexpr nexpr RPAREN
+   13      | LPAREN • IF truexpr nexpr sexpr RPAREN
+   14      | LPAREN • IF falsexpr sexpr nexpr RPAREN
+   15      | LPAREN • IF truexpr nexpr bexpr RPAREN
+   16      | LPAREN • IF falsexpr bexpr nexpr RPAREN
+   18 bexpr: LPAREN • bexpr AND bexpr RPAREN
+   19      | LPAREN • NOT bexpr RPAREN
+   20      | LPAREN • nexpr LESS nexpr RPAREN
+   21      | LPAREN • nexpr EQ nexpr RPAREN
+   22      | LPAREN • IF bexpr bexpr bexpr RPAREN
+   26 sexpr: LPAREN • sexpr DOT sexpr RPAREN
+   27      | LPAREN • IF bexpr sexpr sexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    NOT      shift, and go to state 16
+    IF       shift, and go to state 17
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    nexpr  go to state 18
+    bexpr  go to state 19
+    sexpr  go to state 20
+
+
+State 7
+
+    0 $accept: input • $end
+    2 input: input • expr '\n'
+
+    $end     shift, and go to state 21
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    expr   go to state 22
+    nexpr  go to state 9
+    bexpr  go to state 10
+    sexpr  go to state 11
+
+
+State 8
+
+    1 input: expr • '\n'
+
+    '\n'  shift, and go to state 23
+
+
+State 9
+
+    3 expr: nexpr •
+
+    $default  reduce using rule 3 (expr)
+
+
+State 10
+
+    4 expr: bexpr •
+
+    $default  reduce using rule 4 (expr)
+
+
+State 11
+
+    5 expr: sexpr •
+
+    $default  reduce using rule 5 (expr)
+
+
+State 12
+
+   26 sexpr: LPAREN • sexpr DOT sexpr RPAREN
+   27      | LPAREN • IF bexpr sexpr sexpr RPAREN
+
+    STRING  shift, and go to state 3
+    IF      shift, and go to state 24
+    LPAREN  shift, and go to state 12
+
+    sexpr  go to state 20
+
+
+State 13
+
+   10 nexpr: PIPE sexpr • PIPE
+
+    PIPE  shift, and go to state 25
+
+
+State 14
+
+    7 nexpr: LPAREN • nexpr PLUS nexpr RPAREN
+    8      | LPAREN • nexpr TIMES nexpr RPAREN
+   11      | LPAREN • IF truexpr nexpr nexpr RPAREN
+   12      | LPAREN • IF falsexpr nexpr nexpr RPAREN
+   13      | LPAREN • IF truexpr nexpr sexpr RPAREN
+   14      | LPAREN • IF falsexpr sexpr nexpr RPAREN
+   15      | LPAREN • IF truexpr nexpr bexpr RPAREN
+   16      | LPAREN • IF falsexpr bexpr nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    IF      shift, and go to state 26
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 27
+
+
+State 15
+
+    9 nexpr: MINUS nexpr •
+
+    $default  reduce using rule 9 (nexpr)
+
+
+State 16
+
+   19 bexpr: LPAREN NOT • bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 29
+
+
+State 17
+
+   11 nexpr: LPAREN IF • truexpr nexpr nexpr RPAREN
+   12      | LPAREN IF • falsexpr nexpr nexpr RPAREN
+   13      | LPAREN IF • truexpr nexpr sexpr RPAREN
+   14      | LPAREN IF • falsexpr sexpr nexpr RPAREN
+   15      | LPAREN IF • truexpr nexpr bexpr RPAREN
+   16      | LPAREN IF • falsexpr bexpr nexpr RPAREN
+   22 bexpr: LPAREN IF • bexpr bexpr bexpr RPAREN
+   27 sexpr: LPAREN IF • bexpr sexpr sexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr     go to state 30
+    truexpr   go to state 31
+    falsexpr  go to state 32
+
+
+State 18
+
+    7 nexpr: LPAREN nexpr • PLUS nexpr RPAREN
+    8      | LPAREN nexpr • TIMES nexpr RPAREN
+   20 bexpr: LPAREN nexpr • LESS nexpr RPAREN
+   21      | LPAREN nexpr • EQ nexpr RPAREN
+
+    LESS   shift, and go to state 33
+    EQ     shift, and go to state 34
+    PLUS   shift, and go to state 35
+    TIMES  shift, and go to state 36
+
+
+State 19
+
+   18 bexpr: LPAREN bexpr • AND bexpr RPAREN
+
+    AND  shift, and go to state 37
+
+
+State 20
+
+   26 sexpr: LPAREN sexpr • DOT sexpr RPAREN
+
+    DOT  shift, and go to state 38
+
+
+State 21
+
+    0 $accept: input $end •
+
+    $default  accept
+
+
+State 22
+
+    2 input: input expr • '\n'
+
+    '\n'  shift, and go to state 39
+
+
+State 23
+
+    1 input: expr '\n' •
+
+    $default  reduce using rule 1 (input)
+
+
+State 24
+
+   27 sexpr: LPAREN IF • bexpr sexpr sexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 40
+
+
+State 25
+
+   10 nexpr: PIPE sexpr PIPE •
+
+    $default  reduce using rule 10 (nexpr)
+
+
+State 26
+
+   11 nexpr: LPAREN IF • truexpr nexpr nexpr RPAREN
+   12      | LPAREN IF • falsexpr nexpr nexpr RPAREN
+   13      | LPAREN IF • truexpr nexpr sexpr RPAREN
+   14      | LPAREN IF • falsexpr sexpr nexpr RPAREN
+   15      | LPAREN IF • truexpr nexpr bexpr RPAREN
+   16      | LPAREN IF • falsexpr bexpr nexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr     go to state 41
+    truexpr   go to state 31
+    falsexpr  go to state 32
+
+
+State 27
+
+    7 nexpr: LPAREN nexpr • PLUS nexpr RPAREN
+    8      | LPAREN nexpr • TIMES nexpr RPAREN
+
+    PLUS   shift, and go to state 35
+    TIMES  shift, and go to state 36
+
+
+State 28
+
+   18 bexpr: LPAREN • bexpr AND bexpr RPAREN
+   19      | LPAREN • NOT bexpr RPAREN
+   20      | LPAREN • nexpr LESS nexpr RPAREN
+   21      | LPAREN • nexpr EQ nexpr RPAREN
+   22      | LPAREN • IF bexpr bexpr bexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    NOT      shift, and go to state 16
+    IF       shift, and go to state 42
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 43
+
+    nexpr  go to state 44
+    bexpr  go to state 19
+
+
+State 29
+
+   19 bexpr: LPAREN NOT bexpr • RPAREN
+
+    RPAREN  shift, and go to state 45
+
+
+State 30
+
+   22 bexpr: LPAREN IF bexpr • bexpr bexpr RPAREN
+   23 truexpr: bexpr •
+   24 falsexpr: bexpr •
+   27 sexpr: LPAREN IF bexpr • sexpr sexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    LPAREN   shift, and go to state 46
+
+    NUMBER    reduce using rule 23 (truexpr)
+    NUMBER    [reduce using rule 24 (falsexpr)]
+    BOOLEAN   [reduce using rule 24 (falsexpr)]
+    STRING    [reduce using rule 24 (falsexpr)]
+    PIPE      reduce using rule 23 (truexpr)
+    PIPE      [reduce using rule 24 (falsexpr)]
+    MINUS     reduce using rule 23 (truexpr)
+    MINUS     [reduce using rule 24 (falsexpr)]
+    LPAREN    [reduce using rule 23 (truexpr)]
+    LPAREN    [reduce using rule 24 (falsexpr)]
+    $default  reduce using rule 23 (truexpr)
+
+    bexpr  go to state 47
+    sexpr  go to state 48
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       18 bexpr: • LPAREN bexpr AND bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN bexpr AND bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                   $end
+             ↳ 1: expr                                                                          '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                 bexpr RPAREN
+                                             ↳ 18: • LPAREN bexpr AND bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       19 bexpr: • LPAREN NOT bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN NOT bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                             $end
+             ↳ 1: expr                                                                    '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                           bexpr RPAREN
+                                             ↳ 19: • LPAREN NOT bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       20 bexpr: • LPAREN nexpr LESS nexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN nexpr LESS nexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                    $end
+             ↳ 1: expr                                                                           '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                  bexpr RPAREN
+                                             ↳ 20: • LPAREN nexpr LESS nexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       21 bexpr: • LPAREN nexpr EQ nexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN nexpr EQ nexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                  $end
+             ↳ 1: expr                                                                         '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                bexpr RPAREN
+                                             ↳ 21: • LPAREN nexpr EQ nexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       22 bexpr: • LPAREN IF bexpr bexpr bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN IF bexpr bexpr bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                        $end
+             ↳ 1: expr                                                                               '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                      bexpr RPAREN
+                                             ↳ 22: • LPAREN IF bexpr bexpr bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       26 sexpr: • LPAREN sexpr DOT sexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN sexpr DOT sexpr RPAREN sexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                   $end
+             ↳ 1: expr                                                                          '\n'
+                  ↳ 5: sexpr
+                       ↳ 27: LPAREN IF bexpr sexpr                                 sexpr RPAREN
+                                             ↳ 26: • LPAREN sexpr DOT sexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       27 sexpr: • LPAREN IF bexpr sexpr sexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN IF bexpr sexpr sexpr RPAREN sexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                        $end
+             ↳ 1: expr                                                                               '\n'
+                  ↳ 5: sexpr
+                       ↳ 27: LPAREN IF bexpr sexpr                                      sexpr RPAREN
+                                             ↳ 27: • LPAREN IF bexpr sexpr sexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    reduce/reduce conflict on tokens NUMBER, PIPE, MINUS, LPAREN:
+       23 truexpr: bexpr •
+       24 falsexpr: bexpr •
+      First example: LPAREN IF bexpr • NUMBER nexpr RPAREN '\n' $end
+      First reduce derivation
+        $accept
+        ↳ 0: input                                                                 $end
+             ↳ 1: expr                                                        '\n'
+                  ↳ 3: nexpr
+                       ↳ 11: LPAREN IF truexpr       nexpr       nexpr RPAREN
+                                       ↳ 23: bexpr • ↳ 6: NUMBER
+      Second example: LPAREN IF bexpr • NUMBER nexpr RPAREN '\n' $end
+      Second reduce derivation
+        $accept
+        ↳ 0: input                                                                 $end
+             ↳ 1: expr                                                        '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr       nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 6: NUMBER
+
+    shift/reduce conflict on token BOOLEAN:
+       24 falsexpr: bexpr •
+       17 bexpr: • BOOLEAN
+      First example: LPAREN IF bexpr • BOOLEAN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                             $end
+             ↳ 1: expr                                                    '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr           bexpr RPAREN
+                                             ↳ 17: • BOOLEAN
+      Second example: LPAREN IF bexpr • BOOLEAN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                   $end
+             ↳ 1: expr                                                          '\n'
+                  ↳ 3: nexpr
+                       ↳ 16: LPAREN IF falsexpr      bexpr         nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 17: BOOLEAN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       18 bexpr: • LPAREN bexpr AND bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN bexpr AND bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                   $end
+             ↳ 1: expr                                                                          '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                 bexpr RPAREN
+                                             ↳ 18: • LPAREN bexpr AND bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       19 bexpr: • LPAREN NOT bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN NOT bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                             $end
+             ↳ 1: expr                                                                    '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                           bexpr RPAREN
+                                             ↳ 19: • LPAREN NOT bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       20 bexpr: • LPAREN nexpr LESS nexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN nexpr LESS nexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                    $end
+             ↳ 1: expr                                                                           '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                  bexpr RPAREN
+                                             ↳ 20: • LPAREN nexpr LESS nexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       21 bexpr: • LPAREN nexpr EQ nexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN nexpr EQ nexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                  $end
+             ↳ 1: expr                                                                         '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                bexpr RPAREN
+                                             ↳ 21: • LPAREN nexpr EQ nexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       22 bexpr: • LPAREN IF bexpr bexpr bexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN IF bexpr bexpr bexpr RPAREN bexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                        $end
+             ↳ 1: expr                                                                               '\n'
+                  ↳ 4: bexpr
+                       ↳ 22: LPAREN IF bexpr bexpr                                      bexpr RPAREN
+                                             ↳ 22: • LPAREN IF bexpr bexpr bexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token STRING:
+       24 falsexpr: bexpr •
+       25 sexpr: • STRING
+      First example: LPAREN IF bexpr • STRING sexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                            $end
+             ↳ 1: expr                                                   '\n'
+                  ↳ 5: sexpr
+                       ↳ 27: LPAREN IF bexpr sexpr          sexpr RPAREN
+                                             ↳ 25: • STRING
+      Second example: LPAREN IF bexpr • STRING nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                  $end
+             ↳ 1: expr                                                         '\n'
+                  ↳ 3: nexpr
+                       ↳ 14: LPAREN IF falsexpr      sexpr        nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 25: STRING
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       26 sexpr: • LPAREN sexpr DOT sexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN sexpr DOT sexpr RPAREN sexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                   $end
+             ↳ 1: expr                                                                          '\n'
+                  ↳ 5: sexpr
+                       ↳ 27: LPAREN IF bexpr sexpr                                 sexpr RPAREN
+                                             ↳ 26: • LPAREN sexpr DOT sexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       27 sexpr: • LPAREN IF bexpr sexpr sexpr RPAREN
+      First example: LPAREN IF bexpr • LPAREN IF bexpr sexpr sexpr RPAREN sexpr RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                        $end
+             ↳ 1: expr                                                                               '\n'
+                  ↳ 5: sexpr
+                       ↳ 27: LPAREN IF bexpr sexpr                                      sexpr RPAREN
+                                             ↳ 27: • LPAREN IF bexpr sexpr sexpr RPAREN
+      Second example: LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                         $end
+             ↳ 1: expr                                                                                '\n'
+                  ↳ 3: nexpr
+                       ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                       ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+
+
+State 31
+
+   11 nexpr: LPAREN IF truexpr • nexpr nexpr RPAREN
+   13      | LPAREN IF truexpr • nexpr sexpr RPAREN
+   15      | LPAREN IF truexpr • nexpr bexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 49
+
+
+State 32
+
+   12 nexpr: LPAREN IF falsexpr • nexpr nexpr RPAREN
+   14      | LPAREN IF falsexpr • sexpr nexpr RPAREN
+   16      | LPAREN IF falsexpr • bexpr nexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    nexpr  go to state 50
+    bexpr  go to state 51
+    sexpr  go to state 52
+
+
+State 33
+
+   20 bexpr: LPAREN nexpr LESS • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 53
+
+
+State 34
+
+   21 bexpr: LPAREN nexpr EQ • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 54
+
+
+State 35
+
+    7 nexpr: LPAREN nexpr PLUS • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 55
+
+
+State 36
+
+    8 nexpr: LPAREN nexpr TIMES • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 56
+
+
+State 37
+
+   18 bexpr: LPAREN bexpr AND • bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 57
+
+
+State 38
+
+   26 sexpr: LPAREN sexpr DOT • sexpr RPAREN
+
+    STRING  shift, and go to state 3
+    LPAREN  shift, and go to state 12
+
+    sexpr  go to state 58
+
+
+State 39
+
+    2 input: input expr '\n' •
+
+    $default  reduce using rule 2 (input)
+
+
+State 40
+
+   27 sexpr: LPAREN IF bexpr • sexpr sexpr RPAREN
+
+    STRING  shift, and go to state 3
+    LPAREN  shift, and go to state 12
+
+    sexpr  go to state 48
+
+
+State 41
+
+   23 truexpr: bexpr •
+   24 falsexpr: bexpr •
+
+    NUMBER    reduce using rule 23 (truexpr)
+    NUMBER    [reduce using rule 24 (falsexpr)]
+    BOOLEAN   reduce using rule 24 (falsexpr)
+    STRING    reduce using rule 24 (falsexpr)
+    PIPE      reduce using rule 23 (truexpr)
+    PIPE      [reduce using rule 24 (falsexpr)]
+    MINUS     reduce using rule 23 (truexpr)
+    MINUS     [reduce using rule 24 (falsexpr)]
+    LPAREN    reduce using rule 23 (truexpr)
+    LPAREN    [reduce using rule 24 (falsexpr)]
+    $default  reduce using rule 23 (truexpr)
+
+    reduce/reduce conflict on tokens NUMBER, PIPE, MINUS, LPAREN:
+       23 truexpr: bexpr •
+       24 falsexpr: bexpr •
+      First example: MINUS LPAREN IF bexpr • NUMBER nexpr RPAREN '\n' $end
+      First reduce derivation
+        $accept
+        ↳ 0: input                                                                            $end
+             ↳ 1: expr                                                                   '\n'
+                  ↳ 3: nexpr
+                       ↳ 9: MINUS nexpr
+                                  ↳ 11: LPAREN IF truexpr       nexpr       nexpr RPAREN
+                                                  ↳ 23: bexpr • ↳ 6: NUMBER
+      Second example: MINUS LPAREN IF bexpr • NUMBER nexpr RPAREN '\n' $end
+      Second reduce derivation
+        $accept
+        ↳ 0: input                                                                            $end
+             ↳ 1: expr                                                                   '\n'
+                  ↳ 3: nexpr
+                       ↳ 9: MINUS nexpr
+                                  ↳ 12: LPAREN IF falsexpr      nexpr       nexpr RPAREN
+                                                  ↳ 24: bexpr • ↳ 6: NUMBER
+
+
+
+State 42
+
+   22 bexpr: LPAREN IF • bexpr bexpr bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 59
+
+
+State 43
+
+    7 nexpr: LPAREN • nexpr PLUS nexpr RPAREN
+    8      | LPAREN • nexpr TIMES nexpr RPAREN
+   11      | LPAREN • IF truexpr nexpr nexpr RPAREN
+   12      | LPAREN • IF falsexpr nexpr nexpr RPAREN
+   13      | LPAREN • IF truexpr nexpr sexpr RPAREN
+   14      | LPAREN • IF falsexpr sexpr nexpr RPAREN
+   15      | LPAREN • IF truexpr nexpr bexpr RPAREN
+   16      | LPAREN • IF falsexpr bexpr nexpr RPAREN
+   18 bexpr: LPAREN • bexpr AND bexpr RPAREN
+   19      | LPAREN • NOT bexpr RPAREN
+   20      | LPAREN • nexpr LESS nexpr RPAREN
+   21      | LPAREN • nexpr EQ nexpr RPAREN
+   22      | LPAREN • IF bexpr bexpr bexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    NOT      shift, and go to state 16
+    IF       shift, and go to state 60
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 43
+
+    nexpr  go to state 18
+    bexpr  go to state 19
+
+
+State 44
+
+   20 bexpr: LPAREN nexpr • LESS nexpr RPAREN
+   21      | LPAREN nexpr • EQ nexpr RPAREN
+
+    LESS  shift, and go to state 33
+    EQ    shift, and go to state 34
+
+
+State 45
+
+   19 bexpr: LPAREN NOT bexpr RPAREN •
+
+    $default  reduce using rule 19 (bexpr)
+
+
+State 46
+
+   18 bexpr: LPAREN • bexpr AND bexpr RPAREN
+   19      | LPAREN • NOT bexpr RPAREN
+   20      | LPAREN • nexpr LESS nexpr RPAREN
+   21      | LPAREN • nexpr EQ nexpr RPAREN
+   22      | LPAREN • IF bexpr bexpr bexpr RPAREN
+   26 sexpr: LPAREN • sexpr DOT sexpr RPAREN
+   27      | LPAREN • IF bexpr sexpr sexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    NOT      shift, and go to state 16
+    IF       shift, and go to state 61
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    nexpr  go to state 44
+    bexpr  go to state 19
+    sexpr  go to state 20
+
+
+State 47
+
+   22 bexpr: LPAREN IF bexpr bexpr • bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 62
+
+
+State 48
+
+   27 sexpr: LPAREN IF bexpr sexpr • sexpr RPAREN
+
+    STRING  shift, and go to state 3
+    LPAREN  shift, and go to state 12
+
+    sexpr  go to state 63
+
+
+State 49
+
+   11 nexpr: LPAREN IF truexpr nexpr • nexpr RPAREN
+   13      | LPAREN IF truexpr nexpr • sexpr RPAREN
+   15      | LPAREN IF truexpr nexpr • bexpr RPAREN
+
+    NUMBER   shift, and go to state 1
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    PIPE     shift, and go to state 4
+    MINUS    shift, and go to state 5
+    LPAREN   shift, and go to state 6
+
+    nexpr  go to state 64
+    bexpr  go to state 65
+    sexpr  go to state 66
+
+
+State 50
+
+   12 nexpr: LPAREN IF falsexpr nexpr • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 67
+
+
+State 51
+
+   16 nexpr: LPAREN IF falsexpr bexpr • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 68
+
+
+State 52
+
+   14 nexpr: LPAREN IF falsexpr sexpr • nexpr RPAREN
+
+    NUMBER  shift, and go to state 1
+    PIPE    shift, and go to state 4
+    MINUS   shift, and go to state 5
+    LPAREN  shift, and go to state 14
+
+    nexpr  go to state 69
+
+
+State 53
+
+   20 bexpr: LPAREN nexpr LESS nexpr • RPAREN
+
+    RPAREN  shift, and go to state 70
+
+
+State 54
+
+   21 bexpr: LPAREN nexpr EQ nexpr • RPAREN
+
+    RPAREN  shift, and go to state 71
+
+
+State 55
+
+    7 nexpr: LPAREN nexpr PLUS nexpr • RPAREN
+
+    RPAREN  shift, and go to state 72
+
+
+State 56
+
+    8 nexpr: LPAREN nexpr TIMES nexpr • RPAREN
+
+    RPAREN  shift, and go to state 73
+
+
+State 57
+
+   18 bexpr: LPAREN bexpr AND bexpr • RPAREN
+
+    RPAREN  shift, and go to state 74
+
+
+State 58
+
+   26 sexpr: LPAREN sexpr DOT sexpr • RPAREN
+
+    RPAREN  shift, and go to state 75
+
+
+State 59
+
+   22 bexpr: LPAREN IF bexpr • bexpr bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 47
+
+
+State 60
+
+   11 nexpr: LPAREN IF • truexpr nexpr nexpr RPAREN
+   12      | LPAREN IF • falsexpr nexpr nexpr RPAREN
+   13      | LPAREN IF • truexpr nexpr sexpr RPAREN
+   14      | LPAREN IF • falsexpr sexpr nexpr RPAREN
+   15      | LPAREN IF • truexpr nexpr bexpr RPAREN
+   16      | LPAREN IF • falsexpr bexpr nexpr RPAREN
+   22 bexpr: LPAREN IF • bexpr bexpr bexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr     go to state 76
+    truexpr   go to state 31
+    falsexpr  go to state 32
+
+
+State 61
+
+   22 bexpr: LPAREN IF • bexpr bexpr bexpr RPAREN
+   27 sexpr: LPAREN IF • bexpr sexpr sexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    bexpr  go to state 77
+
+
+State 62
+
+   22 bexpr: LPAREN IF bexpr bexpr bexpr • RPAREN
+
+    RPAREN  shift, and go to state 78
+
+
+State 63
+
+   27 sexpr: LPAREN IF bexpr sexpr sexpr • RPAREN
+
+    RPAREN  shift, and go to state 79
+
+
+State 64
+
+   11 nexpr: LPAREN IF truexpr nexpr nexpr • RPAREN
+
+    RPAREN  shift, and go to state 80
+
+
+State 65
+
+   15 nexpr: LPAREN IF truexpr nexpr bexpr • RPAREN
+
+    RPAREN  shift, and go to state 81
+
+
+State 66
+
+   13 nexpr: LPAREN IF truexpr nexpr sexpr • RPAREN
+
+    RPAREN  shift, and go to state 82
+
+
+State 67
+
+   12 nexpr: LPAREN IF falsexpr nexpr nexpr • RPAREN
+
+    RPAREN  shift, and go to state 83
+
+
+State 68
+
+   16 nexpr: LPAREN IF falsexpr bexpr nexpr • RPAREN
+
+    RPAREN  shift, and go to state 84
+
+
+State 69
+
+   14 nexpr: LPAREN IF falsexpr sexpr nexpr • RPAREN
+
+    RPAREN  shift, and go to state 85
+
+
+State 70
+
+   20 bexpr: LPAREN nexpr LESS nexpr RPAREN •
+
+    $default  reduce using rule 20 (bexpr)
+
+
+State 71
+
+   21 bexpr: LPAREN nexpr EQ nexpr RPAREN •
+
+    $default  reduce using rule 21 (bexpr)
+
+
+State 72
+
+    7 nexpr: LPAREN nexpr PLUS nexpr RPAREN •
+
+    $default  reduce using rule 7 (nexpr)
+
+
+State 73
+
+    8 nexpr: LPAREN nexpr TIMES nexpr RPAREN •
+
+    $default  reduce using rule 8 (nexpr)
+
+
+State 74
+
+   18 bexpr: LPAREN bexpr AND bexpr RPAREN •
+
+    $default  reduce using rule 18 (bexpr)
+
+
+State 75
+
+   26 sexpr: LPAREN sexpr DOT sexpr RPAREN •
+
+    $default  reduce using rule 26 (sexpr)
+
+
+State 76
+
+   22 bexpr: LPAREN IF bexpr • bexpr bexpr RPAREN
+   23 truexpr: bexpr •
+   24 falsexpr: bexpr •
+
+    BOOLEAN  shift, and go to state 2
+    LPAREN   shift, and go to state 28
+
+    NUMBER    reduce using rule 23 (truexpr)
+    NUMBER    [reduce using rule 24 (falsexpr)]
+    BOOLEAN   [reduce using rule 24 (falsexpr)]
+    STRING    reduce using rule 24 (falsexpr)
+    PIPE      reduce using rule 23 (truexpr)
+    PIPE      [reduce using rule 24 (falsexpr)]
+    MINUS     reduce using rule 23 (truexpr)
+    MINUS     [reduce using rule 24 (falsexpr)]
+    LPAREN    [reduce using rule 23 (truexpr)]
+    LPAREN    [reduce using rule 24 (falsexpr)]
+    $default  reduce using rule 23 (truexpr)
+
+    bexpr  go to state 47
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       18 bexpr: • LPAREN bexpr AND bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN bexpr AND bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                    $end
+             ↳ 1: bexpr                                                                                                                          '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                  RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                    AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                 bexpr RPAREN
+                                                                      ↳ 18: • LPAREN bexpr AND bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       19 bexpr: • LPAREN NOT bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN NOT bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                              $end
+             ↳ 1: bexpr                                                                                                                    '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                            RPAREN
+                                   ↳ 18: LPAREN bexpr                                                              AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                           bexpr RPAREN
+                                                                      ↳ 19: • LPAREN NOT bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       20 bexpr: • LPAREN nexpr LESS nexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr LESS nexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                     $end
+             ↳ 1: bexpr                                                                                                                           '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                   RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                     AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                  bexpr RPAREN
+                                                                      ↳ 20: • LPAREN nexpr LESS nexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       21 bexpr: • LPAREN nexpr EQ nexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr EQ nexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                   $end
+             ↳ 1: bexpr                                                                                                                         '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                 RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                   AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                bexpr RPAREN
+                                                                      ↳ 21: • LPAREN nexpr EQ nexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       23 truexpr: bexpr •
+       22 bexpr: • LPAREN IF bexpr bexpr bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN IF bexpr bexpr bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                         $end
+             ↳ 1: bexpr                                                                                                                               '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                       RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                         AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                      bexpr RPAREN
+                                                                      ↳ 22: • LPAREN IF bexpr bexpr bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr                               nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    reduce/reduce conflict on tokens NUMBER, PIPE, MINUS, LPAREN:
+       23 truexpr: bexpr •
+       24 falsexpr: bexpr •
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • NUMBER nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      First reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                        $end
+             ↳ 1: expr                                                                                                               '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                 RPAREN
+                                        ↳ 20: LPAREN nexpr                                                  LESS nexpr RPAREN
+                                                     ↳ 11: LPAREN IF truexpr       nexpr       nexpr RPAREN
+                                                                     ↳ 23: bexpr • ↳ 6: NUMBER
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • NUMBER nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Second reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                        $end
+             ↳ 1: expr                                                                                                               '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                 RPAREN
+                                        ↳ 20: LPAREN nexpr                                                  LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr       nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 6: NUMBER
+
+    shift/reduce conflict on token BOOLEAN:
+       24 falsexpr: bexpr •
+       17 bexpr: • BOOLEAN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • BOOLEAN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                              $end
+             ↳ 1: bexpr                                                                                                    '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                            RPAREN
+                                   ↳ 18: LPAREN bexpr                                              AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr           bexpr RPAREN
+                                                                      ↳ 17: • BOOLEAN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • BOOLEAN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                          $end
+             ↳ 1: expr                                                                                                                 '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                   RPAREN
+                                        ↳ 20: LPAREN nexpr                                                    LESS nexpr RPAREN
+                                                     ↳ 16: LPAREN IF falsexpr      bexpr         nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 17: BOOLEAN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       18 bexpr: • LPAREN bexpr AND bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN bexpr AND bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                    $end
+             ↳ 1: bexpr                                                                                                                          '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                  RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                    AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                 bexpr RPAREN
+                                                                      ↳ 18: • LPAREN bexpr AND bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       19 bexpr: • LPAREN NOT bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN NOT bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                              $end
+             ↳ 1: bexpr                                                                                                                    '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                            RPAREN
+                                   ↳ 18: LPAREN bexpr                                                              AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                           bexpr RPAREN
+                                                                      ↳ 19: • LPAREN NOT bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       20 bexpr: • LPAREN nexpr LESS nexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr LESS nexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                     $end
+             ↳ 1: bexpr                                                                                                                           '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                   RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                     AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                  bexpr RPAREN
+                                                                      ↳ 20: • LPAREN nexpr LESS nexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       21 bexpr: • LPAREN nexpr EQ nexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr EQ nexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                   $end
+             ↳ 1: bexpr                                                                                                                         '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                 RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                   AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                bexpr RPAREN
+                                                                      ↳ 21: • LPAREN nexpr EQ nexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+    shift/reduce conflict on token LPAREN:
+       24 falsexpr: bexpr •
+       22 bexpr: • LPAREN IF bexpr bexpr bexpr RPAREN
+      First example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN IF bexpr bexpr bexpr RPAREN bexpr RPAREN AND bexpr RPAREN RPAREN '\n' $end
+      Shift derivation
+        $accept
+        ↳ 0: input                                                                                                                                         $end
+             ↳ 1: bexpr                                                                                                                               '\n'
+                  ↳ 19: LPAREN NOT bexpr                                                                                                       RPAREN
+                                   ↳ 18: LPAREN bexpr                                                                         AND bexpr RPAREN
+                                                ↳ 22: LPAREN IF bexpr bexpr                                      bexpr RPAREN
+                                                                      ↳ 22: • LPAREN IF bexpr bexpr bexpr RPAREN
+      Second example: LPAREN NOT LPAREN LPAREN IF bexpr • LPAREN nexpr PLUS nexpr RPAREN nexpr RPAREN LESS nexpr RPAREN RPAREN '\n' $end
+      Reduce derivation
+        $accept
+        ↳ 0: input                                                                                                                                                $end
+             ↳ 1: expr                                                                                                                                       '\n'
+                  ↳ 4: bexpr
+                       ↳ 19: LPAREN NOT bexpr                                                                                                         RPAREN
+                                        ↳ 20: LPAREN nexpr                                                                          LESS nexpr RPAREN
+                                                     ↳ 12: LPAREN IF falsexpr      nexpr                               nexpr RPAREN
+                                                                     ↳ 24: bexpr • ↳ 7: LPAREN nexpr PLUS nexpr RPAREN
+
+
+
+State 77
+
+   22 bexpr: LPAREN IF bexpr • bexpr bexpr RPAREN
+   27 sexpr: LPAREN IF bexpr • sexpr sexpr RPAREN
+
+    BOOLEAN  shift, and go to state 2
+    STRING   shift, and go to state 3
+    LPAREN   shift, and go to state 46
+
+    bexpr  go to state 47
+    sexpr  go to state 48
+
+
+State 78
+
+   22 bexpr: LPAREN IF bexpr bexpr bexpr RPAREN •
+
+    $default  reduce using rule 22 (bexpr)
+
+
+State 79
+
+   27 sexpr: LPAREN IF bexpr sexpr sexpr RPAREN •
+
+    $default  reduce using rule 27 (sexpr)
+
+
+State 80
+
+   11 nexpr: LPAREN IF truexpr nexpr nexpr RPAREN •
+
+    $default  reduce using rule 11 (nexpr)
+
+
+State 81
+
+   15 nexpr: LPAREN IF truexpr nexpr bexpr RPAREN •
+
+    $default  reduce using rule 15 (nexpr)
+
+
+State 82
+
+   13 nexpr: LPAREN IF truexpr nexpr sexpr RPAREN •
+
+    $default  reduce using rule 13 (nexpr)
+
+
+State 83
+
+   12 nexpr: LPAREN IF falsexpr nexpr nexpr RPAREN •
+
+    $default  reduce using rule 12 (nexpr)
+
+
+State 84
+
+   16 nexpr: LPAREN IF falsexpr bexpr nexpr RPAREN •
+
+    $default  reduce using rule 16 (nexpr)
+
+
+State 85
+
+   14 nexpr: LPAREN IF falsexpr sexpr nexpr RPAREN •
+
+    $default  reduce using rule 14 (nexpr)

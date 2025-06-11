@@ -1,0 +1,5 @@
+test1.txt → "abcdefghijklabcdefghijkl"
+test2.txt → "mundo"
+test3.txt → "bien"
+test4.txt → "ok"
+test5.txt → "holamundo!!!jajafinmal"
