@@ -1,1 +1,1 @@
-(\if (\not (\false \and \true)) bien mal)
+(\if ((3 < 5) \and (\not \false))(10 + (2 * 3))(\if (4 = 4) 20 30))

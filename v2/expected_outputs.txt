@@ -1,5 +1,5 @@
-test1.txt → "abcdefghijklabcdefghijkl"
-test2.txt → "mundo"
-test3.txt → "bien"
-test4.txt → "ok"
-test5.txt → "holamundo!!!jajafinmal"
+test1.txt → -184
+test2.txt → \false
+test3.txt → ”holamundoestoesunapruebadeconcatenaciondecadenas”
+test4.txt → 16
+test5.txt → 6

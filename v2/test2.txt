@@ -1,1 +1,1 @@
-((hola . (mundo . uuu)) . ( \if ((|hola| + |mundo|) < 10) jaja no )) 
+((\false \and \true)\and(\not (\true \and (\not \true))))

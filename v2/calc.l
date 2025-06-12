@@ -37,6 +37,10 @@ digit   [0-9]
                   }
 
 
+"\\[a-zA-Z0-9_]+" { 
+    printf("Error léxico: palabra reservada desconocida '%s'\n", yytext); 
+}
+
 
 .  {
     printf("Error léxico: carácter inesperado '%s' (ASCII: %d)\n", yytext, yytext[0]);

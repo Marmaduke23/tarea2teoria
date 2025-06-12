@@ -1,1 +1,1 @@
-((((hola . (mundo . uuu)) . ( \if ((|hola| + |mundo|) < 10) jaja no )) . fin) . (\if \false bien mal))
+(\if ((|hola| = 4) \and (|abc| < 5)) (|abcde| + 1) (|z| * 2))
